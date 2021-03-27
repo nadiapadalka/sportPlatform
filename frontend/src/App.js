@@ -27,7 +27,7 @@ class App extends Component {
     return (
       <div>
         <Root>
-          <ToastContainer hideProgressBar={true} newestOnTop={true} />
+          <ToastContainer position="top-right" hideProgressBar={true} newestOnTop={true} />
           <Switch>
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />

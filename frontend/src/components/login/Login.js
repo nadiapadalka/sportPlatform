@@ -55,7 +55,7 @@ class Login extends Component {
                 />
               </Form.Group>
             </Form>
-            <Button color="primary" onClick={this.onLoginClick}>
+            <Button size="lg" variant="secondary" onClick={this.onLoginClick}>
               Login
             </Button>
             <p className="mt-2">

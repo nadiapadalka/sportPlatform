@@ -88,7 +88,7 @@ class ResendActivation extends Component {
             </FormControl.Feedback>
           </Form.Group>
         </Form>
-        <Button color="primary" onClick={this.onResendClick}>
+        <Button size="lg" variant="secondary" onClick={this.onResendClick}>
           Send activation email
         </Button>
       </div>

@@ -91,7 +91,7 @@ class ResetPasswordConfirm extends Component {
             </FormControl.Feedback>
           </Form.Group>
         </Form>
-        <Button color="primary" onClick={this.onSaveClick}>
+        <Button size="lg" variant="secondary" onClick={this.onSaveClick}>
           Save
         </Button>
       </div>

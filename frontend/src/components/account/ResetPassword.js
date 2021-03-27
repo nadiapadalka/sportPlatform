@@ -85,7 +85,7 @@ class ResetPassword extends Component {
             </FormControl.Feedback>
           </Form.Group>
         </Form>
-        <Button color="primary" onClick={this.onSendClick}>
+        <Button size="lg" variant="secondary" onClick={this.onSendClick}>
           Send email with reset link
         </Button>
       </div>
