@@ -15,7 +15,7 @@ class NotesList extends Component {
     const { notes } = this.props.notes;
 
     if (notes.length === 0) {
-      return <h2>Please add your first note</h2>;
+      return <h2>Будь ласка, створіть подію</h2>;
     }
 
     let items = notes.map(note => {
@@ -24,7 +24,7 @@ class NotesList extends Component {
 
     return (
       <div>
-        <h2>Notes</h2>
+        <h2>Події</h2>
         {items}
         <hr /> {/* a */}
       </div>

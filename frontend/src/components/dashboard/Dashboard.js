@@ -19,13 +19,13 @@ class Dashboard extends Component {
     return (
       <div>
         <Navbar bg="light">
-          <Navbar.Brand href="/">Home</Navbar.Brand>
+          <Navbar.Brand href="/">Головна</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
-              User: <b>{user.username}</b>
+              Привіт: <b>{user.username}</b>
             </Navbar.Text>
-            <Nav.Link onClick={this.onLogout}>Logout</Nav.Link>
+            <Nav.Link onClick={this.onLogout}>Вийти</Nav.Link>
           </Navbar.Collapse>
         </Navbar>
         <Container>

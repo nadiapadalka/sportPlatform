@@ -24,17 +24,17 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    this.props.login(userData, "/dashboard");
+    this.props.login(userData, "/");
   };
   render() {
     return (
       <Container>
         <Row>
           <Col md="4">
-            <h1>Login</h1>
+            <h1>Увійти</h1>
             <Form>
               <Form.Group controlId="emailId">
-                <Form.Label>Your Email</Form.Label>
+                <Form.Label>Ваше ім'я</Form.Label>
                 <Form.Control
                   type="text"
                   name="email"
@@ -45,7 +45,7 @@ class Login extends Component {
               </Form.Group>
 
               <Form.Group controlId="passwordId">
-                <Form.Label>Your password</Form.Label>
+                <Form.Label>Пароль</Form.Label>
                 <Form.Control
                   type="password"
                   name="password"
@@ -59,11 +59,11 @@ class Login extends Component {
               Login
             </Button>
             <p className="mt-2">
-              Don't have account? <Link to="/signup">Signup</Link>
+              Досі не маєте аккаунту? <Link to="/signup">Зареєструватись</Link>
             </p>
             <p className="mt-2">
-              Forget password?{" "}
-              <Link to="/send_reset_password">Reset Password</Link>
+              Забули пароль?{" "}
+              <Link to="/send_reset_password">Змінити пароль</Link>
             </p>
           </Col>
         </Row>
