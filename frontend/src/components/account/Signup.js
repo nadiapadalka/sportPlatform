@@ -74,16 +74,17 @@ class Signup extends Component {
   render() {
     let errorAlert = (
       <Alert variant="danger">
-        <Alert.Heading>Problem during account creation</Alert.Heading>
+        <Alert.Heading>Проблема впродовж створення</Alert.Heading>
+        Спробуйте ще раз або зконтактуйте з службою підтримки для допомоги.
         Please try again or contact service support for further help.
       </Alert>
     );
 
     let successAlert = (
       <Alert variant="success">
-        <Alert.Heading>Account created</Alert.Heading>
+        <Alert.Heading>Аккаунт створено!</Alert.Heading>
         <p>
-          We send you an email with activation link. Please check your email.
+          Ми надіслали вам ласт з активуючим посиланням. Будь ласка перевірте свій email.
         </p>
       </Alert>
     );
@@ -92,7 +93,7 @@ class Signup extends Component {
       <div>
         <Form>
           <Form.Group controlId="usernameId">
-            <Form.Label>User name</Form.Label>
+            <Form.Label>Ім'я користувача</Form.Label>
             <Form.Control
               isInvalid={this.state.usernameError}
               type="text"
@@ -107,7 +108,7 @@ class Signup extends Component {
           </Form.Group>
 
           <Form.Group controlId="emailId">
-            <Form.Label>Your Email</Form.Label>
+            <Form.Label>Ваш Email</Form.Label>
             <Form.Control
               isInvalid={this.state.emailError}
               type="text"
@@ -122,7 +123,7 @@ class Signup extends Component {
           </Form.Group>
 
           <Form.Group controlId="passwordId">
-            <Form.Label>Your password</Form.Label>
+            <Form.Label>Ваш пароль</Form.Label>
             <Form.Control
               isInvalid={this.state.passwordError}
               type="password"
@@ -137,7 +138,7 @@ class Signup extends Component {
           </Form.Group>
         </Form>
         <Button color="primary" onClick={this.onSignupClick}>
-          Sign up
+          Зареєструватись
         </Button>
       </div>
     );
@@ -153,11 +154,11 @@ class Signup extends Component {
       <Container>
         <Row>
           <Col md="6">
-            <h1>Sign up</h1>
+            <h1>Зареєструатись</h1>
             {alert}
             {this.state.status !== "success" && form}
             <p className="mt-2">
-              Already have account? <Link to="/login">Login</Link>
+              Уже маєте аккаунт? <Link to="/login">Вхід</Link>
             </p>
           </Col>
         </Row>

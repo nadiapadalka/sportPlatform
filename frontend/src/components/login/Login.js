@@ -38,7 +38,7 @@ class Login extends Component {
                 <Form.Control
                   type="text"
                   name="email"
-                  placeholder="Enter email"
+                  placeholder="Введіть email"
                   value={this.state.email}
                   onChange={this.onChange}
                 />
@@ -49,7 +49,7 @@ class Login extends Component {
                 <Form.Control
                   type="password"
                   name="password"
-                  placeholder="Enter password"
+                  placeholder="Введіть пароль"
                   value={this.state.password}
                   onChange={this.onChange}
                 />
