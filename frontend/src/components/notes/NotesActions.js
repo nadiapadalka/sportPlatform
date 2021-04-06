@@ -4,7 +4,7 @@ import { GET_NOTES, ADD_NOTE, DELETE_NOTE, UPDATE_NOTE } from "./NotesTypes";
 
 export const getNotes = () => dispatch => {
   axios
-    .get("/api/v1/notes/")
+    .get("/api/events")
     .then(response => {
       dispatch({
         type: GET_NOTES,
@@ -18,7 +18,7 @@ export const getNotes = () => dispatch => {
 
 export const addNote = note => dispatch => {
   axios
-    .post("/api/v1/notes/", note)
+    .post("/api/events/", note)
     .then(response => {
       dispatch({
         type: ADD_NOTE,
@@ -32,7 +32,7 @@ export const addNote = note => dispatch => {
 
 export const deleteNote = id => dispatch => {
   axios
-    .delete(`/api/v1/notes/${id}/`)
+    .delete(`/api/events${id}/`)
     .then(response => {
       dispatch({
         type: DELETE_NOTE,
@@ -46,7 +46,7 @@ export const deleteNote = id => dispatch => {
 
 export const updateNote = (id, note) => dispatch => {
   axios
-    .patch(`/api/v1/notes/${id}/`, note)
+    .patch(`/api/events/${id}/`, note)
     .then(response => {
       dispatch({
         type: UPDATE_NOTE,

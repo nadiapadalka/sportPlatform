@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Navbar, Nav,NavLink, Button} from "react-bootstrap";
 import { Container, Row, Col } from 'fluid-react';
-import NotesList from "./notes/NotesList";
-import AddNote from "./notes/AddNote";
+// import NotesList from "./notes/NotesList";
 import { logout } from "./login/LoginActions";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -24,7 +23,7 @@ class Home extends Component {
       <Navbar >
       < Navbar.Collapse id="justify-content-end ">
 					<Nav className="ml-auto justify-content-end w-100">
-          <Button as={Link} to="/dashboard">Створити подію</Button>
+          <Button as={Link} to="/addEvent">Створити подію</Button>
           {/* check if user is already authentificated or not */}
           {typeof(user.username) !== 'undefined' && user.username != null
         ? <Nav>
@@ -42,7 +41,11 @@ class Home extends Component {
         </Navbar.Collapse>
       </Navbar>
       <Row >
-      <Col>        
+      <Col>
+      <Container>
+          {/* <NotesList />
+          <AddNote /> */}
+        </Container>        
       </Col>
       <Col xs="12" md="5">
     <DisplayMapClass />

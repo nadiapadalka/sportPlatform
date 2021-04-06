@@ -1,7 +1,7 @@
 
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -15,7 +15,7 @@ SECRET_KEY = "j+qxsyi2xv!6lkv-hn)c$qxeo+t#1r#)0s)o^yh)ds#k%%19tm"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True 
 
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'boilerplate.saasitive.com', 'www.boilerplate.saasitive.com']
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'localhost']
 
 
 # Application definition
@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     'corsheaders',
     #
     'apps.accounts',
-    'apps.notes'
+    'apps.events'
 ]
 
 #configure DRF
@@ -80,16 +80,16 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'server.urls'
 
 TEMPLATES = [
@@ -158,6 +158,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-MEDIA_URL = '/media/'
 STATIC_URL = '/django_static/' 
 STATIC_ROOT = BASE_DIR / 'django_static'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
