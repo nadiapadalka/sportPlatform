@@ -5,6 +5,8 @@ import { withRouter } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import { Row, Col } from 'fluid-react';
 import axios from 'axios';
+import  EventsService  from  './EventService';
+const  eventsService  =  new  EventsService();
 
 class AddEvent extends Component {
   state = {
@@ -45,12 +47,46 @@ class AddEvent extends Component {
     }
     })
         .then(res => {
+          alert("Customer created!");
           console.log(res.data);
           this.props.history.push("/");
-
         })
         .catch(err => console.log(err))
   };
+
+  
+  handleUpdate(pk){
+    eventsService.updateCustomer(
+      {
+        "pk": pk,
+        "title": this.refs.title.value,
+        "content": this.refs.lastName.value,
+        "city": this.refs.email.value,
+        "phone": this.refs.phone.value,
+        "address": this.refs.address.value,
+        "image": this.refs.description.value
+    }
+    ).then((result)=>{
+      console.log(result);
+      alert("Customer updated!");
+    }).catch(()=>{
+      alert('There was an error! Please re-check your form.');
+    });
+  }
+  handleSubmit(event) {
+    const { match: { params } } = this.props;
+
+    if(params && params.pk){
+      this.handleUpdate(params.pk);
+    }
+    else
+    {
+      this.handleCreate();
+    }
+
+    event.preventDefault();
+  }
+
 
   render() {
     return (

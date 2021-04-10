@@ -9,6 +9,9 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import {DisplayMapClass} from './map/Map' // import the map here
+import EventList from "./events/EventList";
+import ReactSearchBox from 'react-search-box'
+
 class Home extends Component {
   onLogout = () => {
     this.props.logout();
@@ -18,6 +21,28 @@ class Home extends Component {
 
     console.log(user.username)
     console.log(typeof(user.username) !== 'undefined' && user.username != null)
+    const data = [
+      {
+        key: 'john',
+        value: 'John Doe',
+      },
+      {
+        key: 'jane',
+        value: 'Jane Doe',
+      },
+      {
+        key: 'mary',
+        value: 'Mary Phillips',
+      },
+      {
+        key: 'robert',
+        value: 'Robert',
+      },
+      {
+        key: 'karius',
+        value: 'Karius',
+      },
+    ]
     return (
       <Container fluid>
       <Navbar >
@@ -43,8 +68,12 @@ class Home extends Component {
       <Row >
       <Col>
       <Container>
-          {/* <NotesList />
-          <AddNote /> */}
+      <ReactSearchBox
+        placeholder="Placeholder"
+        value="Doe"
+        data={this.data}
+        callback={record => console.log(record)}
+      />          <EventList />
         </Container>        
       </Col>
       <Col xs="12" md="5">
