@@ -30,4 +30,9 @@ export default class EventsService{
         const url = `${API_URL}/api/events/${event.pk}`;
         return axios.put(url,event);
     }
+    updateSubscribedUsers(event)
+    {
+        const url = `${API_URL}/api/events/${event.pk}`;
+        return axios.put(url,event);
+    }
 }

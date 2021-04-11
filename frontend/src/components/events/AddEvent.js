@@ -9,6 +9,10 @@ import  EventsService  from  './EventService';
 const  eventsService  =  new  EventsService();
 
 class AddEvent extends Component {
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
   state = {
     title: '',
     content: '',
@@ -16,7 +20,21 @@ class AddEvent extends Component {
     address: '',
     image: null
   };
+  componentDidMount(){
+    const { match: { params } } = this.props;
+        if(params && params.pk)
+        {
 
+          eventsService.getEvent(params.pk).then((c)=>{
+            console.log(c);
+            this.refs.title.value = c.title;
+            this.refs.content.value = c.content;
+            this.refs.city.value = c.city;
+            this.refs.address.value = c.address;
+            this.refs.image = c.image;
+          })
+        }
+  }
   handleChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
@@ -29,9 +47,9 @@ class AddEvent extends Component {
     })
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(this.state);
+  handleCreate() {
+    // e.preventDefault();
+    console.log("handle create");
     let form_data = new FormData();
     form_data.append('image', this.state.image, this.state.image.name);
     form_data.append('title', this.state.title);
@@ -41,11 +59,7 @@ class AddEvent extends Component {
 
 
     let url = 'http://localhost:8000/api/events/';
-    axios.post(url, form_data, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-    }
-    })
+    eventsService.createEvent(form_data)
         .then(res => {
           alert("Customer created!");
           console.log(res.data);
@@ -56,15 +70,13 @@ class AddEvent extends Component {
 
   
   handleUpdate(pk){
-    eventsService.updateCustomer(
+    eventsService.updateEvent(
       {
         "pk": pk,
         "title": this.refs.title.value,
-        "content": this.refs.lastName.value,
-        "city": this.refs.email.value,
-        "phone": this.refs.phone.value,
-        "address": this.refs.address.value,
-        "image": this.refs.description.value
+        "content": this.refs.content.value,
+        "city": this.refs.city.value,
+        "address": this.refs.address.value
     }
     ).then((result)=>{
       console.log(result);
@@ -100,6 +112,7 @@ class AddEvent extends Component {
               type="text"
               rows={3}
               id="title"
+              ref="title"
               placeholder="Введіть назву події"
               value={this.state.title}
               onChange={this.handleChange} required
@@ -109,6 +122,7 @@ class AddEvent extends Component {
               as="textarea"
               rows={3}
               id="content"
+              ref ="content"
               placeholder="Введіть опис події"
               value={this.state.content}
               onChange={this.handleChange} required
@@ -118,6 +132,7 @@ class AddEvent extends Component {
               type ="text"
               rows={3}
               id="city"
+              ref = "city"
               placeholder="Введіть місто"
               value={this.state.city}
               onChange={this.handleChange} required            />
@@ -125,6 +140,7 @@ class AddEvent extends Component {
               as="textarea"
               rows={3}
               id="address"
+              ref ="address"
               placeholder="Введіть адресу"
               value={this.state.address}
               onChange={this.handleChange} required
@@ -138,6 +154,7 @@ class AddEvent extends Component {
               id="image"
               accept="image/png, image/jpeg"  
               onChange={this.handleImageChange} required 
+              ref ="image"
               label="Дойте світлину події" />
                        </Col>
             </Row>

@@ -6,24 +6,6 @@ from rest_framework.response import Response
 from rest_framework import status
 # Create your views here.
 
-# class EventView(APIView):
-#     parser_classes = (MultiPartParser, FormParser)
-
-#     def get(self, request, *args, **kwargs):
-#         posts = Event.objects.all()
-#         serializer = EventSerializer(posts, many=True)
-#         return Response(serializer.data)
-
-#     def post(self, request, *args, **kwargs):
-#         posts_serializer = EventSerializer(data=request.data)
-#         print(posts_serializer.is_valid())
-#         if posts_serializer.is_valid():
-#             posts_serializer.save()
-#             return Response(posts_serializer.data, status=status.HTTP_201_CREATED)
-#         else:
-#             print('error', posts_serializer.errors)
-#             return Response(posts_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -83,6 +65,12 @@ def events_detail(request, pk):
         return Response(serializer.data)
 
     elif request.method == 'PUT':
+        serializer = EventSerializer(event, data=request.data,context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'POST':
         serializer = EventSerializer(event, data=request.data,context={'request': request})
         if serializer.is_valid():
             serializer.save()

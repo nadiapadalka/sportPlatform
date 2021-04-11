@@ -73,7 +73,7 @@ class Home extends Component {
         value="Doe"
         data={this.data}
         callback={record => console.log(record)}
-      />          <EventList />
+      />          <EventList user = {user.username}/>
         </Container>        
       </Col>
       <Col xs="12" md="5">

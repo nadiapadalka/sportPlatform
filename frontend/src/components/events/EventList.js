@@ -1,4 +1,5 @@
 import  React, { Component } from  'react';
+import PropTypes from "prop-types";
 import  EventsService  from  './EventService';
 import {
     Card, CardImg, CardText, CardBody,
@@ -14,7 +15,8 @@ constructor(props) {
     super(props);
     this.state  = {
         events: [],
-        nextPageURL:  ''
+        nextPageURL:  '',
+        user: this.props.user
     };
     this.nextPage  =  this.nextPage.bind(this);
     this.handleDelete  =  this.handleDelete.bind(this);
@@ -37,7 +39,19 @@ handleDelete(e,pk){
         self.setState({events:  newArr})
     });
 }
+subscribeToEvent(e,pk,user){
+    var  self  =  this;
 
+eventsService.updateSubscribedUsers(
+    {"pk":pk,
+      "subscribedUsers": this.state.user
+  }
+  ).then((result)=>{
+    alert("Users updated!");
+  }).catch(()=>{
+    alert('There was an error! Please re-check your form.');
+  });
+}
 nextPage(){
     var  self  =  this;
     console.log(this.state.nextPageURL);
@@ -48,48 +62,21 @@ nextPage(){
 render() {
 
     return (
-        //  <div  className="events--list">
-        //     <table  className="table">
-        //     <thead  key="thead">
-        //     <tr>
-        //     <th>#</th>
-
-        //         <th>Title</th>
-        //         <th>Content</th>
-        //         <th>City</th>
-        //         <th>Address</th>
-        //         <th>Image</th>
-        //     </tr>
-        //     </thead>
-        //     <tbody>
-        //     {this.state.events.map( c  =>
-        //         <tr  >
-        //         <td>{c.pk}  </td>
-
-        //         <td>{c.title}</td>
-        //         <td>{c.content}</td>
-        //         <td>{c.city}</td>
-        //         <td>{c.address}</td>
-        //         <td>{c.image}</td>
-        //         <td>
-        //         <button  onClick={(e)=>  this.handleDelete(e,c.pk) }> Delete</button>
-        //         <a  href={"/event/" + c.pk}> Update</a>
-        //         </td>
-        //     </tr>)}
-        //     </tbody>
-        //     </table>
-        //     <button  className="btn btn-primary"  onClick=  {  this.nextPage  }>Next</button>
-        // </div>
         <div>
             {this.state.events.map( c  =>
       <Card>
+            <div>
+                 Data from parent is:{this.state.user}
+             </div>
           <Row >
           <Col><CardBody className="col">
           <CardTitle tag="h4">{c.title}</CardTitle>
           <CardSubtitle tag="h5" className="mb-2 text-muted">{c.city}</CardSubtitle>
           <CardSubtitle tag="h6" className="mb-2 text-muted">{c.address}</CardSubtitle>
           <CardText>{c.content}</CardText>
-          <Button>Підписатись на подію</Button>
+          <Button onClick={(e)=>  this.subscribeToEvent(e,c.pk,this.state.user) }>Підписатись на подію</Button>
+          <button  onClick={(e)=>  this.handleDelete(e,c.pk) }> Delete</button>
+                 <a  href={"/event/" + c.pk}> Update</a>
         </CardBody></Col>
         <Col> 
              <CardImg  top width="40%" className="col-auto" src={c.image} alt="Card image cap" />
@@ -102,4 +89,8 @@ render() {
         );
   }
 }
+EventList.propTypes = {
+    logout: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired
+  };
 export  default  EventList;

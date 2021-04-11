@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-
+from jsonfield import JSONField
 User = get_user_model()
 
 class Event(models.Model):
@@ -8,6 +8,7 @@ class Event(models.Model):
     content = models.TextField(blank=True)
     city = models.CharField(max_length=255, default='Lviv')
     address = models.TextField(blank=True)
-    image = models.ImageField(upload_to='events_images', default='/Users/nadiiapadalka/Downloads/sport_platform/backend/server/media/post_images/img.jpg')
+    image = models.ImageField(blank=True, upload_to='events_images', default='/Users/nadiiapadalka/Downloads/sport_platform/backend/server/media/post_images/img.jpg')
+    subscribedUsers = JSONField(default={'usernames':{}}, blank =True)
     def __str__(self):
         return self.title

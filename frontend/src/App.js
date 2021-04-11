@@ -38,6 +38,8 @@ class App extends Component {
             <Route path="/addEvent" component={AddEvent} />
             <Route exact path="/" component={Home} />
             <Route  path="/Events"  exact  component={EventList}  />
+            <Route  path="/event/:pk"  component={AddEvent}  />
+            <Route  path="/event/"  exact  component={AddEvent}  />
             <Route path="/resend_activation" component={ResendActivation} />
             <Route path="/activate/:uid/:token" component={ActivateAccount} />
             <Route path="/send_reset_password/" component={ResetPassword} />
