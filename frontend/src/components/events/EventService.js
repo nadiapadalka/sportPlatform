@@ -23,6 +23,7 @@ export default class EventsService{
         return axios.delete(url);
     }
     createEvent(event){
+        console.log(event)
         const url = `${API_URL}/api/events/`;
         return axios.post(url,event);
     }

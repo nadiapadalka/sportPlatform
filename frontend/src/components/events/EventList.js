@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import  EventsService  from  './EventService';
 import {
     Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button
+    CardTitle, CardSubtitle, Button, Label
   } from 'reactstrap';
   import { Container, Row, Col } from 'fluid-react';
 
@@ -28,6 +28,7 @@ componentDidMount() {
         console.log(result);
         self.setState({ events:  result.data, nextPageURL:  result.nextlink})
     });
+    this.state.events.map( c  =>console.log(eventsService.getCoordinates({address:c.address})));
 }
 handleDelete(e,pk){
     var  self  =  this;
@@ -48,6 +49,7 @@ eventsService.updateSubscribedUsers(
   }
   ).then((result)=>{
     alert("Users updated!");
+    window.location.reload(); 
   }).catch(()=>{
     alert('There was an error! Please re-check your form.');
   });
@@ -69,12 +71,18 @@ render() {
                  Data from parent is:{this.state.user}
              </div>
           <Row >
-          <Col><CardBody className="col">
-          <CardTitle tag="h4">{c.title}</CardTitle>
-          <CardSubtitle tag="h5" className="mb-2 text-muted">{c.city}</CardSubtitle>
-          <CardSubtitle tag="h6" className="mb-2 text-muted">{c.address}</CardSubtitle>
-          <CardText>{c.content}</CardText>
-          <Button onClick={(e)=>  this.subscribeToEvent(e,c.pk,this.state.user) }>Підписатись на подію</Button>
+          <Col>
+            <CardBody key={c.pk} className="col">
+            <CardTitle tag="h4">{c.title}</CardTitle>
+            <CardSubtitle tag="h5" className="mb-2 text-muted">{c.city}</CardSubtitle>
+            <CardSubtitle tag="h6" className="mb-2 text-muted">{c.address}</CardSubtitle>
+            <CardText>{c.content}</CardText>
+          {c.subscribedUsers == this.state.user
+        ? <Label >Ви уже підписались на цю подію!<br/></Label>
+        :  <Button onClick={(e)=>  this.subscribeToEvent(e,c.pk,this.state.user) }>Підписатись на подію</Button>}
+
+        <Label>{c.address}</Label>
+
           <button  onClick={(e)=>  this.handleDelete(e,c.pk) }> Delete</button>
                  <a  href={"/event/" + c.pk}> Update</a>
         </CardBody></Col>
@@ -84,7 +92,8 @@ render() {
         
         </Row>
 
-      </Card>)}
+      </Card>
+      )}
     </div>
         );
   }

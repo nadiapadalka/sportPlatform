@@ -10,5 +10,7 @@ class Event(models.Model):
     address = models.TextField(blank=True)
     image = models.ImageField(blank=True, upload_to='events_images', default='/Users/nadiiapadalka/Downloads/sport_platform/backend/server/media/post_images/img.jpg')
     subscribedUsers = JSONField(default={'usernames':{}}, blank =True)
+    latitude = models.FloatField(default=0)
+    longitude = models.FloatField(default=0)
     def __str__(self):
         return self.title

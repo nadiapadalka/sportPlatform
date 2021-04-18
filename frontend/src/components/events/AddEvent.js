@@ -1,11 +1,11 @@
-import React, { Component,Image } from "react";
-import PropTypes from "prop-types";
+import React, { Component} from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import { Row, Col } from 'fluid-react';
-import axios from 'axios';
 import  EventsService  from  './EventService';
+import { OpenStreetMapProvider } from 'leaflet-geosearch';
+const provider = new OpenStreetMapProvider();
 const  eventsService  =  new  EventsService();
 
 class AddEvent extends Component {
@@ -18,23 +18,27 @@ class AddEvent extends Component {
     content: '',
     city: '',
     address: '',
-    image: null
-  };
+    image: null,
+    latitude: '',
+    longitude: 0  };
   componentDidMount(){
     const { match: { params } } = this.props;
         if(params && params.pk)
         {
 
           eventsService.getEvent(params.pk).then((c)=>{
-            console.log(c);
             this.refs.title.value = c.title;
             this.refs.content.value = c.content;
             this.refs.city.value = c.city;
             this.refs.address.value = c.address;
             this.refs.image = c.image;
-          })
-        }
+            // searching for coordinates by an adress
+            provider.search({ query: c.address}).then((result)=>{
+              this.state.longitude = result[0].y
+              this.state.latitude = result[0].x});
+        })
   }
+}
   handleChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
@@ -48,7 +52,6 @@ class AddEvent extends Component {
   };
 
   handleCreate() {
-    // e.preventDefault();
     console.log("handle create");
     let form_data = new FormData();
     form_data.append('image', this.state.image, this.state.image.name);
@@ -61,7 +64,6 @@ class AddEvent extends Component {
     let url = 'http://localhost:8000/api/events/';
     eventsService.createEvent(form_data)
         .then(res => {
-          alert("Customer created!");
           console.log(res.data);
           this.props.history.push("/");
         })
@@ -76,11 +78,13 @@ class AddEvent extends Component {
         "title": this.refs.title.value,
         "content": this.refs.content.value,
         "city": this.refs.city.value,
-        "address": this.refs.address.value
+        "address": this.refs.address.value,
+        "latitude": this.state.latitude,
+        "longitude": this.state.longitude
     }
     ).then((result)=>{
-      console.log(result);
-      alert("Customer updated!");
+      alert("Event updated!");
+      this.props.history.push("/");
     }).catch(()=>{
       alert('There was an error! Please re-check your form.');
     });
@@ -101,6 +105,7 @@ class AddEvent extends Component {
 
 
   render() {
+    const { match: { params } } = this.props;
     return (
       <div>
         <Form>
@@ -160,10 +165,14 @@ class AddEvent extends Component {
             </Row>
           </Form.Group>
         </Form>
-        <Button variant="success" onClick={this.handleSubmit}>
-          Створити подію
+        {(params && params.pk)
+        ?<Button variant="success" onClick={this.handleSubmit}>
+          Оновити подію
         </Button>
-      </div>
+        :<Button variant="success" onClick={this.handleSubmit}>
+          Створити подію
+        </Button>}
+        </div>
     );
   }
 }
