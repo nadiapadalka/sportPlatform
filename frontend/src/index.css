@@ -7,3 +7,7 @@
 .navbar-nav {
     flex-direction: row;
   }
+.leaflet-container {
+    width: 700px; 
+    height: 900px;
+  }

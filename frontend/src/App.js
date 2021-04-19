@@ -10,6 +10,8 @@ import ActivateAccount from "./components/account/ActivateAccount";
 import ResetPassword from "./components/account/ResetPassword";
 import ResetPasswordConfirm from "./components/account/ResetPasswordConfirm";
 import AddEvent from "./components/events/AddEvent";
+import EventList from "./components/events/EventList";
+
 
 import Dashboard from "./components/dashboard/Dashboard";
 
@@ -35,6 +37,9 @@ class App extends Component {
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/addEvent" component={AddEvent} />
             <Route exact path="/" component={Home} />
+            <Route  path="/Events"  exact  component={EventList}  />
+            <Route  path="/event/:pk"  component={AddEvent}  />
+            <Route  path="/event/"  exact  component={AddEvent}  />
             <Route path="/resend_activation" component={ResendActivation} />
             <Route path="/activate/:uid/:token" component={ActivateAccount} />
             <Route path="/send_reset_password/" component={ResetPassword} />
