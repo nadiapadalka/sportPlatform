@@ -48,21 +48,19 @@ class ResetPassword extends Component {
   render() {
     let errorAlert = (
       <Alert variant="danger">
-        <Alert.Heading>Problem during reset password email send</Alert.Heading>
-        Please try again or contact service support for further help.
+        <Alert.Heading>Виникла проблема під час надсилання листа</Alert.Heading>
+        Будь ласка, спробуйте знову.
       </Alert>
     );
 
     let successAlert = (
       <Alert variant="success">
-        <Alert.Heading>Email sent </Alert.Heading>
+        <Alert.Heading>Email надіслано. </Alert.Heading>
         <p>
-          We send you an email with reset password link. Please check your
-          email.
+        Ми надіслали вам ласт з активним посиланням для зміни паролю. Будь ласка перевірте свій email.
         </p>
         <p>
-          Please try again or contact us if you do not receive it within a few
-          minutes.
+          Будь ласка, спробуйте знову або напишіть нам, якщо виникли проблеми з отриманням листа.
         </p>
       </Alert>
     );
@@ -71,12 +69,12 @@ class ResetPassword extends Component {
       <div>
         <Form>
           <Form.Group controlId="emailId">
-            <Form.Label>Your Email</Form.Label>
+            <Form.Label>Ваш email</Form.Label>
             <Form.Control
               isInvalid={this.state.emailError}
               type="text"
               name="email"
-              placeholder="Enter email"
+              placeholder="Введіть email"
               value={this.state.email}
               onChange={this.onChange}
             />
@@ -86,7 +84,7 @@ class ResetPassword extends Component {
           </Form.Group>
         </Form>
         <Button size="lg" variant="secondary" onClick={this.onSendClick}>
-          Send email with reset link
+          Надіслати email з посиланням для зміни паролю
         </Button>
       </div>
     );
@@ -102,7 +100,7 @@ class ResetPassword extends Component {
       <Container>
         <Row>
           <Col md="6">
-            <h1>Reset Password</h1>
+            <h1>Змінити пароль</h1>
             {alert}
             {this.state.status !== "success" && form}
           </Col>

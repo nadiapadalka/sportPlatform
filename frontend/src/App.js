@@ -11,13 +11,10 @@ import ResetPassword from "./components/account/ResetPassword";
 import ResetPasswordConfirm from "./components/account/ResetPasswordConfirm";
 import AddEvent from "./components/events/AddEvent";
 import EventList from "./components/events/EventList";
-
-
-import Dashboard from "./components/dashboard/Dashboard";
-
 import requireAuth from "./utils/RequireAuth";
 
 import axios from "axios";
+import SubscribedEvents from "./components/events/SubscribedEvents";
 
 if (window.location.origin === "http://localhost:3000") {
   axios.defaults.baseURL = "http://127.0.0.1:8000";
@@ -34,10 +31,10 @@ class App extends Component {
           <Switch>
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
-            <Route path="/dashboard" component={Dashboard} />
             <Route path="/addEvent" component={AddEvent} />
             <Route exact path="/" component={Home} />
             <Route  path="/Events"  exact  component={EventList}  />
+            <Route  path="/SubscribedEvents" component={SubscribedEvents}  />
             <Route  path="/event/:pk"  component={AddEvent}  />
             <Route  path="/event/"  exact  component={AddEvent}  />
             <Route path="/resend_activation" component={ResendActivation} />

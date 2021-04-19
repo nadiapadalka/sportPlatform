@@ -83,10 +83,10 @@ class AddEvent extends Component {
         "longitude": this.state.longitude
     }
     ).then((result)=>{
-      alert("Event updated!");
+      console.result("Event was updated!")
       this.props.history.push("/");
     }).catch(()=>{
-      alert('There was an error! Please re-check your form.');
+      alert('Виникла помилка. Будь ласка перевірте форму і спробуйте ще раз.');
     });
   }
   handleSubmit(event) {
@@ -152,7 +152,7 @@ class AddEvent extends Component {
             />
             </Col>
             <Col>
-            <img src="images/img.jpg" alt="BigCo Inc. logo" style={{ height: "85%", width: "60%"}}/>
+            <img src="images/img.jpg" style={{ height: "85%", width: "60%"}}/>
            
 
             <Form.File 
@@ -160,7 +160,7 @@ class AddEvent extends Component {
               accept="image/png, image/jpeg"  
               onChange={this.handleImageChange} required 
               ref ="image"
-              label="Дойте світлину події" />
+              label="Додайте світлину події" />
                        </Col>
             </Row>
           </Form.Group>

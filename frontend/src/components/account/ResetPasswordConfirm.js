@@ -55,21 +55,18 @@ class ResetPasswordConfirm extends Component {
   render() {
     const errorAlert = (
       <Alert variant="danger">
-        <Alert.Heading>Problem during new password set </Alert.Heading>
+        <Alert.Heading>Виникла проблема під час створення нового пароля.</Alert.Heading>
         <p>
-          Please try <Link to="/send_reset_password">reset password</Link> again
-          or contact service support for further help.
+          Будь ласка, спробуйте <Link to="/send_reset_password">змінити пароль</Link> знову.
         </p>
       </Alert>
     );
 
     const successAlert = (
       <Alert variant="success">
-        <Alert.Heading>New Password Set</Alert.Heading>
+        <Alert.Heading>Створення нового пароля</Alert.Heading>
         <p>
-          You can <Link to="/login/">Login</Link> to your account with new
-          password.
-        </p>
+          Ви можете  <Link to="/login/">увійти</Link> у свій аккаунт використовуючи новий пароль.        </p>
       </Alert>
     );
 
@@ -77,12 +74,12 @@ class ResetPasswordConfirm extends Component {
       <div>
         <Form>
           <Form.Group controlId="emailId">
-            <Form.Label>Your New Password</Form.Label>
+            <Form.Label>Ваш новий пароль</Form.Label>
             <Form.Control
               isInvalid={this.state.passwordError}
               type="password"
               name="new_password"
-              placeholder="Enter new password"
+              placeholder="Введіть новий пароль"
               value={this.state.new_password}
               onChange={this.onChange}
             />
@@ -108,7 +105,7 @@ class ResetPasswordConfirm extends Component {
       <Container>
         <Row>
           <Col md="6">
-            <h1>Set a New Password</h1>
+            <h1>Створити новий пароль </h1>
             {alert}
             {this.state.status !== "success" && form}
           </Col>

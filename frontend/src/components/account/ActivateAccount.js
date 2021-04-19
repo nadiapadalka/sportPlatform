@@ -17,13 +17,16 @@ class ActivateAccount extends Component {
 
   componentDidMount() {
     const { uid, token } = this.props.match.params;
-
+    console.log("activate account")
+    console.log(token)
     axios
       .post("/api/v1/users/activation/", { uid, token })
       .then(response => {
+        console.log(response)
         this.setState({ status: "success" });
       })
       .catch(error => {
+        console.log(error)
         this.setState({ status: "error" });
       });
   }
@@ -31,16 +34,16 @@ class ActivateAccount extends Component {
   render() {
     let errorAlert = (
       <Alert variant="danger">
-        <Alert.Heading>Problem during account activation</Alert.Heading>
-        Please try again or contact service support for further help.
+        <Alert.Heading>Виникла проблема при активації аккаунту.</Alert.Heading>
+        Будь ласка, спробуйте знову.
       </Alert>
     );
 
     let successAlert = (
       <Alert variant="success">
-        <Alert.Heading>Your account has been activated</Alert.Heading>
+        <Alert.Heading>Вітаємо, ваш аккаунт активовано!</Alert.Heading>
         <p>
-          You can <Link to="/login/">Login</Link> to your account.
+          Тепер ви можете <Link to="/login/">Ввійти</Link> у свій аккаунт.
         </p>
       </Alert>
     );
@@ -56,7 +59,7 @@ class ActivateAccount extends Component {
       <Container>
         <Row>
           <Col md="6">
-            <h1>Activate Account</h1>
+            <h1>Активація аккаунту</h1>
             {alert}
           </Col>
         </Row>

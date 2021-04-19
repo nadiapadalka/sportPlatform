@@ -49,6 +49,8 @@ class Signup extends Component {
     axios
       .post("/api/v1/users/", userData)
       .then(response => {
+        console.log("user added")
+        console.log(response)
         this.setState({ status: "success" });
       })
       .catch(error => {
@@ -74,9 +76,8 @@ class Signup extends Component {
   render() {
     let errorAlert = (
       <Alert variant="danger">
-        <Alert.Heading>Проблема впродовж створення</Alert.Heading>
+        <Alert.Heading>Проблема впродовж створення аккаунту</Alert.Heading>
         Спробуйте ще раз або зконтактуйте з службою підтримки для допомоги.
-        Please try again or contact service support for further help.
       </Alert>
     );
 
@@ -84,7 +85,7 @@ class Signup extends Component {
       <Alert variant="success">
         <Alert.Heading>Аккаунт створено!</Alert.Heading>
         <p>
-          Ми надіслали вам ласт з активуючим посиланням. Будь ласка перевірте свій email.
+          Ми надіслали вам ласт з активним посиланням. Будь ласка перевірте свій email.
         </p>
       </Alert>
     );
@@ -98,7 +99,7 @@ class Signup extends Component {
               isInvalid={this.state.usernameError}
               type="text"
               name="username"
-              placeholder="Enter user name"
+              placeholder="Введіть ім'я користувача"
               value={this.state.username}
               onChange={this.onChange}
             />
@@ -113,7 +114,7 @@ class Signup extends Component {
               isInvalid={this.state.emailError}
               type="text"
               name="email"
-              placeholder="Enter email"
+              placeholder="Введіть email"
               value={this.state.email}
               onChange={this.onChange}
             />
@@ -128,7 +129,7 @@ class Signup extends Component {
               isInvalid={this.state.passwordError}
               type="password"
               name="password"
-              placeholder="Enter password"
+              placeholder="Введіть ваш пароль"
               value={this.password}
               onChange={this.onChange}
             />
@@ -154,7 +155,7 @@ class Signup extends Component {
       <Container>
         <Row>
           <Col md="6">
-            <h1>Зареєструатись</h1>
+            <h1>Зареєструватись</h1>
             {alert}
             {this.state.status !== "success" && form}
             <p className="mt-2">

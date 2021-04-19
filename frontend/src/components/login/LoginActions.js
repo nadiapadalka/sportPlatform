@@ -82,7 +82,7 @@ export const logout = () => dispatch => {
     .then(response => {
       dispatch(unsetCurrentUser());
       dispatch(push("/"));
-      toast.success("Logout successful.");
+      toast.success("Вихід здійснено успішно.");
     })
     .catch(error => {
       dispatch(unsetCurrentUser());
