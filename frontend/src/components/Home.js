@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 
 import Map from "./events/Map"; // import the map here
 import EventList from "./events/EventList";
+import SubscribedEvents from "./events/SubscribedEvents";
 
 class Home extends Component {
   onLogout = () => {
@@ -17,11 +18,16 @@ class Home extends Component {
   render() {
     const { user } = this.props.auth;
     return (
-      <Container fluid>
+      <Container>
       <Navbar >
       < Navbar.Collapse id="justify-content-end ">
 					<Nav className="ml-auto justify-content-end w-100">
           <Button as={Link} to="/addEvent">Створити подію</Button>
+          <Nav.Link as={Link} to={
+            {     
+         pathname: '/SubscribedEvents',
+         state:user.username
+        }} >Мої події</Nav.Link>
           {/* check if user is already authentificated or not */}
           {typeof(user.username) !== 'undefined' && user.username != null
         ? <Nav>

@@ -49,20 +49,19 @@ class ResendActivation extends Component {
   render() {
     let errorAlert = (
       <Alert variant="danger">
-        <Alert.Heading>Problem during activation email send </Alert.Heading>
-        Please try again or contact service support for further help.
+        <Alert.Heading>Виникла проблема під час надсилання листа </Alert.Heading>
+        Будь ласка, спробуйте знову.
       </Alert>
     );
 
     let successAlert = (
       <Alert variant="success">
-        <Alert.Heading>Email sent </Alert.Heading>
+        <Alert.Heading>Email надіслано </Alert.Heading>
         <p>
-          We send you an email with activation link. Please check your email.
+        Ми надіслали вам ласт з активним посиланням для зміни паролю. Будь ласка перевірте свій email.
         </p>
         <p>
-          Please try again or contact us if you do not receive it within a few
-          minutes.
+        Будь ласка, спробуйте знову, якщо ви не отримаєте листа впродовж кількох хвилин.
         </p>
       </Alert>
     );

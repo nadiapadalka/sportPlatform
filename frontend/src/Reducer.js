@@ -7,8 +7,6 @@ import { notesReducer } from "./components/notes/NotesReducer";
 const createRootReducer = history =>
   combineReducers({
     router: connectRouter(history),
-    auth: loginReducer,
-    notes: notesReducer
-  });
+    auth: loginReducer  });
 
 export default createRootReducer;
