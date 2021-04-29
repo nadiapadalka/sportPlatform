@@ -19,7 +19,9 @@ class AddEvent extends Component {
     city: '',
     address: '',
     image: null,
-    latitude: '',
+    latitude: 0,
+    addressChanged: '',
+    user: this.props.location.state,
     longitude: 0  };
   componentDidMount(){
     const { match: { params } } = this.props;
@@ -49,19 +51,26 @@ class AddEvent extends Component {
     this.setState({
       image: e.target.files[0]
     })
+
+    if (this.state.address !== '') 
+      {provider.search({ query: this.state.address}).then((result)=>{
+      this.state.longitude = result[0].y
+      this.state.latitude = result[0].x}
+      );}
   };
 
   handleCreate() {
-    console.log("handle create");
     let form_data = new FormData();
     form_data.append('image', this.state.image, this.state.image.name);
+    form_data.append('creator',this.state.user);
+    form_data.append('longitude', this.state.longitude);
+    form_data.append('latitude', this.state.latitude);
     form_data.append('title', this.state.title);
     form_data.append('content', this.state.content);
     form_data.append('city', this.state.city);
     form_data.append('address', this.state.address);
 
 
-    let url = 'http://localhost:8000/api/events/';
     eventsService.createEvent(form_data)
         .then(res => {
           console.log(res.data);

@@ -22,7 +22,10 @@ class Home extends Component {
       <Navbar >
       < Navbar.Collapse id="justify-content-end ">
 					<Nav className="ml-auto justify-content-end w-100">
-          <Button as={Link} to="/addEvent">Створити подію</Button>
+          <Button as={Link} to={     
+                  {pathname: '/addEvent',
+                  state:user.username
+        }}>Створити подію</Button>
           <Nav.Link as={Link} to={
             {     
          pathname: '/SubscribedEvents',

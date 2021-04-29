@@ -8,6 +8,7 @@ class Event(models.Model):
     content = models.TextField(blank=True)
     city = models.CharField(max_length=255, default='Lviv')
     address = models.TextField(blank=True)
+    creator = models.CharField(max_length=255, default='creator')
     image = models.ImageField(blank=True, upload_to='events_images', default='/Users/nadiiapadalka/Downloads/sport_platform/backend/server/media/post_images/img.jpg')
     subscribedUsers = JSONField(default={'usernames':{}}, blank =True)
     latitude = models.FloatField(default=0)

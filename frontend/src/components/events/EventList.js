@@ -6,6 +6,7 @@ import {
     CardTitle, CardSubtitle, Button, Label
   } from 'reactstrap';
   import { Container, Row, Col } from 'fluid-react';
+import { PersonCheckFill } from 'react-bootstrap-icons';
 
 const  eventsService  =  new  EventsService();
 
@@ -16,19 +17,25 @@ constructor(props) {
     this.state  = {
         events: [],
         nextPageURL:  '',
-        user: this.props.user
+        user: this.props.user,
+        subscribedEventsId:[]
     };
     this.nextPage  =  this.nextPage.bind(this);
     this.handleDelete  =  this.handleDelete.bind(this);
-}
+    console.log("subscribedEventsId", localStorage.getItem('subscribedEventsId'))
 
+}
 componentDidMount() {
     var  self  =  this;
     eventsService.getEvents().then(function (result) {
         console.log(result);
+        // var subscribedEventsId = []
+        // result.data.map(c=> 
+        //   {
+        //     subscribedEventsId.push(c.pk)
+        //   })
         self.setState({ events:  result.data, nextPageURL:  result.nextlink})
     });
-    this.state.events.map( c  =>console.log(eventsService.getCoordinates({address:c.address})));
 }
 handleDelete(e,pk){
     var  self  =  this;
@@ -40,12 +47,33 @@ handleDelete(e,pk){
         self.setState({events:  newArr})
     });
 }
-subscribeToEvent(e,pk,user){
-    var  self  =  this;
+subscribeToEvent(e,pk,user,subscribedUsers){
+  var  self  =  this;
+  
+  var key = "username" + pk.toString()
 
-eventsService.updateSubscribedUsers(
+  if (subscribedUsers === null) 
+    subscribedUsers = {};
+  else{
+    console.log(subscribedUsers)
+    subscribedUsers = JSON.parse(subscribedUsers);
+  var vals = Object.keys(subscribedUsers).map(function(key) {
+    return subscribedUsers[key];
+  });
+  var n = vals.includes(this.state.user);
+  }
+  console.log(Object.keys(subscribedUsers.length == 0))
+ if (Object.keys(subscribedUsers.length == 0) || !n) {
+    subscribedUsers[key]=user
+    var a = [];
+    a = JSON.parse(localStorage.getItem('subscribedEventsId')) || [];
+    a = Array.from(a)
+    a.push(pk);
+    localStorage.setItem('subscribedEventsId', JSON.stringify(a));
+  }
+    eventsService.updateSubscribedUsers(
     {"pk":pk,
-      "subscribedUsers": this.state.user
+    "subscribedUsers": JSON.stringify(subscribedUsers)
   }
   ).then((result)=>{
     window.location.reload(); 
@@ -73,9 +101,10 @@ render() {
             <CardSubtitle tag="h5" className="mb-2 text-muted">{c.city}</CardSubtitle>
             <CardSubtitle tag="h6" className="mb-2 text-muted">{c.address}</CardSubtitle>
             <CardText>{c.content}</CardText>
-          {c.subscribedUsers == this.state.user
+            <CardText>{c.pk in this.state.subscribedEventsId}</CardText>
+          { localStorage.getItem('subscribedEventsId').includes(c.pk)
         ? <Label >Ви уже підписались на цю подію!<br/></Label>
-        :  <Button onClick={(e)=>  this.subscribeToEvent(e,c.pk,this.state.user) }>Підписатись на подію</Button>}
+        :  <Button onClick={(e)=>  this.subscribeToEvent(e,c.pk,this.state.user, c.subscribedUsers) }>Підписатись на подію</Button>}
 
         <Label>{c.address}</Label>
 

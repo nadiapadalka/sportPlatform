@@ -24,18 +24,14 @@ constructor(props) {
 componentDidMount() {
     var  self  =  this;
     eventsService.getEvents().then(function (result) {
-        console.log(result);
-        console.log(self.state.user)
         self.setState({ events:  result.data, nextPageURL:  result.nextlink})
     });
-    this.state.events.map( c  =>console.log(eventsService.getCoordinates({address:c.address})));
 }
 
 
 
 nextPage(){
     var  self  =  this;
-    console.log(this.state.nextPageURL);
     eventsService.getEventsByURL(this.state.nextPageURL).then((result) => {
         self.setState({ events:  result.data, nextPageURL:  result.nextlink})
     });

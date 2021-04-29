@@ -30,19 +30,18 @@ class  Map  extends  Component {
   render(){
 
   return (
-    <MapContainer center={[49.54958975, 25.569396300266025]} zoom={13} scrollWheelZoom={false}>
+    <MapContainer center={[49.83096655, 24.039360473819094]} zoom={11} scrollWheelZoom={false}>
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
         {this.state.events.map( (marker,idx)  =>
           {
             let position = [marker.longitude, marker.latitude];
-            console.log(position)
-            console.log(idx)
             return (
               <Marker key={idx}
-                      position={position}
-              ></Marker>
+                      position={position}>
+                <Popup>{marker.address}</Popup>
+              </Marker>
             );
         }
           )}
