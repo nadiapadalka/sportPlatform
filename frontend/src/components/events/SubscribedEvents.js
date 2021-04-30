@@ -26,6 +26,23 @@ componentDidMount() {
     eventsService.getEvents().then(function (result) {
         self.setState({ events:  result.data, nextPageURL:  result.nextlink})
     });
+    this.state.events.map( c  =>{
+    var subscribedUsers;
+    if (c.subscribedUsers === null) 
+        subscribedUsers = {};
+    else{
+        console.log(c.subscribedUsers)
+        subscribedUsers = JSON.parse(c.subscribedUsers);
+        var vals = Object.keys(c.subscribedUsers).map(function(key) {
+    return subscribedUsers[key];});
+
+    var n = vals.includes(this.state.user);
+    if(Object.keys(subscribedUsers.length != 0) || n)
+    {
+    localStorage.setItem('subscribedEventsId', n);
+    }
+  }
+})
 }
 
 
@@ -42,7 +59,7 @@ render() {
         <div>
             {this.state.events.map( c  =>
       <Card>
-            {this.state.user === c.subscribedUsers &&
+            {localStorage.getItem('subscribedEventsId').includes(c.pk)&&
 
           <Row >
           <Col>

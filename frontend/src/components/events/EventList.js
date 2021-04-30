@@ -22,20 +22,46 @@ constructor(props) {
     };
     this.nextPage  =  this.nextPage.bind(this);
     this.handleDelete  =  this.handleDelete.bind(this);
-    console.log("subscribedEventsId", localStorage.getItem('subscribedEventsId'))
 
 }
 componentDidMount() {
     var  self  =  this;
     eventsService.getEvents().then(function (result) {
-        console.log(result);
-        // var subscribedEventsId = []
-        // result.data.map(c=> 
-        //   {
-        //     subscribedEventsId.push(c.pk)
-        //   })
         self.setState({ events:  result.data, nextPageURL:  result.nextlink})
-    });
+        self.state.events.map( c  =>{
+          var subscribedUsers;
+          if (c.subscribedUsers === null) 
+              subscribedUsers = {};
+          else { 
+              //parsing subscribedUsers from db
+              subscribedUsers = JSON.parse(c.subscribedUsers);
+              console.log(subscribedUsers)
+              //getting only users
+              var vals = Object.keys(subscribedUsers).map(function(key) {
+                return subscribedUsers[key];});
+              console.log(vals)
+            
+               var n = vals.includes(self.state.user);
+                console.log("n ",n)
+              if(n)
+              {
+              var a = [];
+              //setting subscribedEventsId field with ids of events
+              //localStorage.setItem('subscribedEventsId', JSON.stringify(a));
+              a = JSON.parse(localStorage.getItem('subscribedEventsId')) || [];
+              console.log(a)
+              a = Array.from(a)
+              if (!a.includes(c.pk)) {a.push(c.pk);}
+              if (!localStorage.getItem('subscribedEventsId').includes(c.pk)){
+
+                localStorage.setItem('subscribedEventsId', JSON.stringify(a));
+              }
+          }
+        }
+      })
+     });
+     console.log("subscribedEventsId", localStorage.getItem('subscribedEventsId'))
+
 }
 handleDelete(e,pk){
     var  self  =  this;
@@ -49,26 +75,23 @@ handleDelete(e,pk){
 }
 subscribeToEvent(e,pk,user,subscribedUsers){
   var  self  =  this;
-  
   var key = "username" + pk.toString()
-
   if (subscribedUsers === null) 
     subscribedUsers = {};
   else{
-    console.log(subscribedUsers)
     subscribedUsers = JSON.parse(subscribedUsers);
-  var vals = Object.keys(subscribedUsers).map(function(key) {
-    return subscribedUsers[key];
-  });
-  var n = vals.includes(this.state.user);
+    var vals = Object.keys(subscribedUsers).map(function(key) {
+      return subscribedUsers[key];
+    });
+    var n = vals.includes(this.state.user);
   }
   console.log(Object.keys(subscribedUsers.length == 0))
- if (Object.keys(subscribedUsers.length == 0) || !n) {
+ if (!n && !localStorage.getItem('subscribedEventsId').includes(pk)) {
     subscribedUsers[key]=user
     var a = [];
     a = JSON.parse(localStorage.getItem('subscribedEventsId')) || [];
     a = Array.from(a)
-    a.push(pk);
+    if (!a.includes(pk)) {a.push(pk);}
     localStorage.setItem('subscribedEventsId', JSON.stringify(a));
   }
     eventsService.updateSubscribedUsers(
