@@ -59,7 +59,7 @@ render() {
         <div>
             {this.state.events.map( c  =>
       <Card>
-            {localStorage.getItem('subscribedEventsId').includes(c.pk)&&
+            {(localStorage.getItem('subscribedEventsId').includes(c.pk)) && (c.creator !== this.state.user )&&
 
           <Row >
           <Col>

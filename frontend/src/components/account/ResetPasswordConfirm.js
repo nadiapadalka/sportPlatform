@@ -89,7 +89,7 @@ class ResetPasswordConfirm extends Component {
           </Form.Group>
         </Form>
         <Button size="lg" variant="secondary" onClick={this.onSaveClick}>
-          Save
+          Зберегти
         </Button>
       </div>
     );

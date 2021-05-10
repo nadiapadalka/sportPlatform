@@ -76,7 +76,7 @@ class Signup extends Component {
   render() {
     let errorAlert = (
       <Alert variant="danger">
-        <Alert.Heading>Проблема впродовж створення аккаунту</Alert.Heading>
+        <Alert.Heading>Виникла проблема під час створення аккаунту</Alert.Heading>
         Спробуйте ще раз або зконтактуйте з службою підтримки для допомоги.
       </Alert>
     );

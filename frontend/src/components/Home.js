@@ -48,14 +48,9 @@ class Home extends Component {
         </Navbar.Collapse>
       </Navbar>
       <Row >
-      <Col>
       <Container>
           <EventList user = {user.username}/>
         </Container>        
-      </Col>
-      <Col xs="12" md="5">
-      <Map/>
-    </Col> 
   </Row>
         </Container>
     );
@@ -63,7 +58,7 @@ class Home extends Component {
 }
 Home.propTypes = {
   logout: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object
 };
 
 

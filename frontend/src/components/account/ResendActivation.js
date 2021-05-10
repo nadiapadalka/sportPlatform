@@ -71,8 +71,7 @@ class ResendActivation extends Component {
         <Form>
           <Form.Group controlId="emailId">
             <Form.Label>
-              Your account is inactive. Please activate account by sending the
-              email with activation link.
+              Ваш аккаунт не є активований. Будь ласка, активуйте його.
             </Form.Label>
             <Form.Control
               isInvalid={this.state.emailError}
@@ -88,7 +87,7 @@ class ResendActivation extends Component {
           </Form.Group>
         </Form>
         <Button size="lg" variant="secondary" onClick={this.onResendClick}>
-          Send activation email
+          Надіслати лист для активації аккаунту
         </Button>
       </div>
     );
@@ -104,7 +103,7 @@ class ResendActivation extends Component {
       <Container>
         <Row>
           <Col md="6">
-            <h1>Resend Activation Email</h1>
+            <h1>Надіслати імейл для активації аккаунту знову</h1>
             {alert}
             {this.state.status !== "success" && form}
           </Col>

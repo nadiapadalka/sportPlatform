@@ -68,6 +68,7 @@ class AddEvent extends Component {
     form_data.append('title', this.state.title);
     form_data.append('content', this.state.content);
     form_data.append('city', this.state.city);
+    form_data.append('creator',this.state.user)
     form_data.append('address', this.state.address);
 
 
