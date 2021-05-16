@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import Blur from 'react-blur';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
@@ -28,9 +29,13 @@ class Login extends Component {
   };
   render() {
     return (
+      <Blur img="images/background.jpeg" blurRadius={7} enableStyles 
+      style={{
+            height: "100vh"          }}>
       <Container>
-        <Row>
-          <Col md="4">
+        <Row justify="space-around"  >
+          <Col md={{ span: 6, offset: 3 }} style={{backgroundColor:"HoneyDew"}}>
+            <br/><br/>
             <h1>Увійти</h1>
             <Form>
               <Form.Group controlId="emailId">
@@ -56,7 +61,7 @@ class Login extends Component {
               </Form.Group>
             </Form>
             <Button size="lg" variant="secondary" onClick={this.onLoginClick}>
-              Login
+              Увійти
             </Button>
             <p className="mt-2">
               Досі не маєте аккаунту? <Link to="/signup">Зареєструватись</Link>
@@ -67,7 +72,7 @@ class Login extends Component {
             </p>
           </Col>
         </Row>
-      </Container>
+      </Container></Blur>
     );
   }
 }

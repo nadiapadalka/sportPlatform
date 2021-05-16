@@ -15,6 +15,7 @@ import requireAuth from "./utils/RequireAuth";
 
 import axios from "axios";
 import SubscribedEvents from "./components/events/SubscribedEvents";
+import EventDetails from "./components/events/EventDetails";
 
 if (window.location.origin === "http://localhost:3000") {
   axios.defaults.baseURL = "http://127.0.0.1:8000";
@@ -32,8 +33,9 @@ class App extends Component {
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
             <Route path="/addEvent" component={AddEvent} />
+            <Route path="/detailEvent/:pk" component={EventDetails} />
             <Route exact path="/" component={Home} />
-            <Route  path="/Events"  exact  component={EventList}  />
+            <Route  path="/Events"  component={EventList}  />
             <Route  path="/SubscribedEvents" component={SubscribedEvents}  />
             <Route  path="/event/:pk"  component={AddEvent}  />
             <Route  path="/event/"  exact  component={AddEvent}  />

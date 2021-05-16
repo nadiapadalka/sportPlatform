@@ -1,7 +1,12 @@
-import  React, { Component } from  'react';
+import  React, { Component ,useState} from  'react';
 import PropTypes from "prop-types";
 import  EventsService  from  './EventService';
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ReactSearchAutocomplete } from 'react-search-autocomplete'
+import TextField from '@material-ui/core/TextField';
+import SearchField from "react-search-field";
 import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button, Label
@@ -30,8 +35,10 @@ constructor(props) {
         nextPageURL:  '',
         user: this.props.user,
         subscribedEventsId:[],
-        clickedEventId: {}
+        clickedEventId: {},
+        availablePlaces: 0
     };
+
     this.nextPage  =  this.nextPage.bind(this);
     this.handleDelete  =  this.handleDelete.bind(this);
 
@@ -61,7 +68,6 @@ componentDidMount() {
               //setting subscribedEventsId field with ids of events
               //localStorage.setItem('subscribedEventsId', JSON.stringify(a));
               a = JSON.parse(localStorage.getItem('subscribedEventsId')) || [];
-              console.log(a)
               a = Array.from(a)
               if (!a.includes(c.pk)) {a.push(c.pk);}
               if (localStorage.getItem('subscribedEventsId') === null || !localStorage.getItem('subscribedEventsId').includes(c.pk)){
@@ -85,7 +91,7 @@ handleDelete(e,pk){
         self.setState({events:  newArr})
     });
 }
-subscribeToEvent(e,pk,user,subscribedUsers){
+subscribeToEvent(e,pk,user,subscribedUsers, capacity){
   var  self  =  this;
   var key = "username" + pk.toString()
   if (subscribedUsers === null) 
@@ -105,10 +111,13 @@ subscribeToEvent(e,pk,user,subscribedUsers){
     a = Array.from(a)
     if (!a.includes(pk)) {a.push(pk);}
     localStorage.setItem('subscribedEventsId', JSON.stringify(a));
+    var availablePlaces;
+    if (capacity >= 1) availablePlaces = capacity -1;
   }
     eventsService.updateSubscribedUsers(
     {"pk":pk,
-    "subscribedUsers": JSON.stringify(subscribedUsers)
+    "subscribedUsers": JSON.stringify(subscribedUsers),
+    "availablePlaces": availablePlaces
   }
   ).then((result)=>{
     toast.success("Ви підписались на подію.");
@@ -116,12 +125,6 @@ subscribeToEvent(e,pk,user,subscribedUsers){
   }).catch(()=>{
     alert('Виникла помилка. Будь ласка перевірте введену інформацію і спробуйте ще раз');
   });
-}
-focusCard(pk){
-  console.log(pk)
-  console.log("marker clicked!")
-  this.state.clickedEventId = pk
-  console.log(this.state.clickedEventId)
 }
 nextPage(){
     var  self  =  this;
@@ -131,13 +134,15 @@ nextPage(){
     });
 }
 render() {
-
+  
     return (
     
     <Row >
     <Col>
+    
     <Container>
     <div>
+    
              {this.state.events.map( c  =>
         <Card>
           <Row >
@@ -147,15 +152,20 @@ render() {
             <CardSubtitle tag="h5" className = "mb-2 text-muted">{c.city}</CardSubtitle>
             <CardSubtitle tag="h6" className = "mb-2 text-muted">{c.address}</CardSubtitle>
             <CardText>{c.content}</CardText>
+            <CardText>Кількість місць: {c.capacity}</CardText>
+            {c.availablePlaces !== 0
+            ?<CardText>Кількість вільних місць: {c.availablePlaces}</CardText>
+            :<CardText>Немає вільних місць!</CardText>}
+
             {c.creator === this.state.user
             ?<Label >Ви створили цю подію!<br/></Label>
             :localStorage.getItem('subscribedEventsId') !== null && localStorage.getItem('subscribedEventsId').includes(c.pk)
             ?<Label >Ви уже підписались на цю подію!<br/></Label>
-            :<Button onClick={(e)=>this.subscribeToEvent(e, c.pk, this.state.user, c.subscribedUsers) }>Підписатись на подію</Button>}
-            <Label>{c.address}</Label>
+            :<Button onClick={(e)=>this.subscribeToEvent(e, c.pk, this.state.user, c.subscribedUsers, c.capacity) }>Підписатись на подію</Button>}
             
           <button  onClick={(e)=>  this.handleDelete(e,c.pk) }> Видалити</button>
                  <a  href={"/event/" + c.pk}> Оновити інформацію</a>
+                 <a  href={"/detailEvent/" + c.pk}> Деталі події</a>
         </CardBody></Col>
         <Col> 
              <CardImg  top width="40%" className="col-auto" src={c.image}/>
@@ -181,10 +191,13 @@ render() {
               eventHandlers={{
                 click: (e) => {
                   console.log('marker clicked', marker.pk)
-                  this.focusCard(e, marker.pk)
+                  let path = "/detailEvent/" + marker.pk; 
+                  this.props.history.push(path);
+                  //this.focusCard(e, marker.pk)
                 },
               }}
                 position={position}>
+                  <a  href={"/detailEvent/" + marker.pk}/>
                 <Popup>{marker.address}</Popup>
               </Marker>
             );
@@ -195,8 +208,9 @@ render() {
 </Row>);
   }
 }
+const mapStateToProps = state => ({});
+
 EventList.propTypes = {
     logout: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
   };
-export  default  EventList;
+  export default connect(mapStateToProps)(withRouter(EventList));
