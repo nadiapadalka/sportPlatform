@@ -11,6 +11,9 @@ class Event(models.Model):
     creator = models.CharField(max_length=255, default='creator')
     image = models.ImageField(blank=True, upload_to='events_images', default='/Users/nadiiapadalka/Downloads/sport_platform/backend/server/media/post_images/img.jpg')
     subscribedUsers = JSONField(default={'usernames':{}}, blank =True)
+    capacity = models.IntegerField(default=5)
+    availablePlaces = models.IntegerField(default=5)
+    category = models.CharField(max_length=255, default='Your title of event')
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
     def __str__(self):
