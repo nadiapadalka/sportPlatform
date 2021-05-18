@@ -2,9 +2,11 @@ import React, { Component} from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
-import { Row, Col } from 'fluid-react';
+import { Row, Col,Container, Grid } from 'fluid-react';
 import  EventsService  from  './EventService';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
+import Blur from 'react-blur';
+
 const provider = new OpenStreetMapProvider();
 const  eventsService  =  new  EventsService();
 
@@ -12,18 +14,23 @@ class AddEvent extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    console.log("init");
+
   }
   state = {
     title: '',
     content: '',
     city: '',
     address: '',
-    image: null,
+    image: "images/img.jpg",
     latitude: 0,
+    file: "images/img.jpg",
     addressChanged: '',
     user: this.props.location.state,
     longitude: 0  };
+
   componentDidMount(){
+    console.log("componentDidMount")
     const { match: { params } } = this.props;
         if(params && params.pk)
         {
@@ -33,15 +40,20 @@ class AddEvent extends Component {
             this.refs.content.value = c.content;
             this.refs.city.value = c.city;
             this.refs.address.value = c.address;
-            this.refs.image = c.image;
-            // searching for coordinates by an adress
-            provider.search({ query: c.address}).then((result)=>{
-              this.state.longitude = result[0].y
-              this.state.latitude = result[0].x});
+            this.refs.image.name = c.image;
+            if (c.image !== null) this.state.file = c.image
+            console.log(this.refs.image)
+
         })
-  }
-}
+  //                   // searching for coordinates by an adress
+  //           provider.search({ query: c.address}).then((result)=>{
+  //             this.state.longitude = result[0].y
+  //             this.state.latitude = result[0].x});
+  // }
+}}
   handleChange = (e) => {
+    console.log("handleChange")
+    console.log(e.target)
     this.setState({
       [e.target.id]: e.target.value
     })
@@ -49,10 +61,11 @@ class AddEvent extends Component {
 
   handleImageChange = (e) => {
     this.setState({
-      image: e.target.files[0]
-    })
+      image: e.target.files[0],
+      file: URL.createObjectURL(e.target.files[0])
 
-    if (this.state.address !== '') 
+    })
+        if (this.state.address !== '') 
       {provider.search({ query: this.state.address}).then((result)=>{
       this.state.longitude = result[0].y
       this.state.latitude = result[0].x}
@@ -116,12 +129,25 @@ class AddEvent extends Component {
 
   render() {
     const { match: { params } } = this.props;
+        if(params && params.pk)
+        {          
+          eventsService.getEvent(params.pk).then((c)=>{
+            this.state.file= c.image;          
+            })
+          }
     return (
-      <div>
+
+      <Blur img="images/background.jpeg" blurRadius={7} enableStyles 
+      style={{
+            height: "100vh"          }}>
+      <Container style={{justifyContent: "center"}}>
+        <Row>
+        <Col  style={{backgroundColor:"HoneyDew", padding: '15px', justifyContent: "center",}}>
+
         <Form>
           <Form.Group >
           <Row >
-      <Col>
+          <Col>
           <Form.Label>Подія</Form.Label>
           <Form.Control
               type="text"
@@ -151,6 +177,7 @@ class AddEvent extends Component {
               placeholder="Введіть місто"
               value={this.state.city}
               onChange={this.handleChange} required            />
+              <br/>
             <Form.Control
               as="textarea"
               rows={3}
@@ -160,9 +187,16 @@ class AddEvent extends Component {
               value={this.state.address}
               onChange={this.handleChange} required
             />
+            <Form.Control as="select">
+              <option>йога/стетчінг</option>
+              <option>командні ігри</option>
+              <option>активності на вулиці</option>
+              <option>гімнастика</option>
+              <option>5</option>
+            </Form.Control>
             </Col>
-            <Col>
-            <img src="images/img.jpg" style={{ height: "85%", width: "60%"}}/>
+            <Col  style={{ padding: '15px'}}>
+            <img src={this.state.file} style={{ height: "85%", width: "80%"}}/>
            
 
             <Form.File 
@@ -182,7 +216,9 @@ class AddEvent extends Component {
         :<Button variant="success" onClick={this.handleSubmit}>
           Створити подію
         </Button>}
-        </div>
+        </Col>
+        </Row>
+        </Container></Blur>
     );
   }
 }

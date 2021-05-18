@@ -3,6 +3,7 @@ import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
 import { Alert, Container, Row, Col } from "react-bootstrap";
+import Blur from 'react-blur';
 
 class ActivateAccount extends Component {
   constructor(props) {
@@ -56,14 +57,17 @@ class ActivateAccount extends Component {
     }
 
     return (
+      <Blur img="images/background.jpeg" blurRadius={7} enableStyles 
+      style={{
+            height: "100vh"          }}>
       <Container>
         <Row>
-          <Col md="6">
+        <Col md={{ span: 6, offset: 3 }} style={{backgroundColor:"HoneyDew"}}>
             <h1>Активація аккаунту</h1>
             {alert}
           </Col>
         </Row>
-      </Container>
+      </Container></Blur>
     );
   }
 }

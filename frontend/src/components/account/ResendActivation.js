@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
+import Blur from 'react-blur';
 import {
   Alert,
   Container,
@@ -100,15 +101,18 @@ class ResendActivation extends Component {
     }
 
     return (
+      <Blur img="images/background.jpeg" blurRadius={7} enableStyles 
+      style={{
+            height: "100vh"          }}>
       <Container>
         <Row>
-          <Col md="6">
-            <h1>Надіслати імейл для активації аккаунту знову</h1>
+        <Col md={{ span: 6, offset: 3 }} style={{backgroundColor:"HoneyDew"}}>
+            <h1>Надіслати лист для активації аккаунту знову</h1>
             {alert}
             {this.state.status !== "success" && form}
           </Col>
         </Row>
-      </Container>
+      </Container></Blur>
     );
   }
 }

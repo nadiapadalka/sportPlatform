@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
-
+import Blur from 'react-blur';
 import axios from "axios";
 import { setAxiosAuthToken } from "../../utils/Utils";
 import {
@@ -91,7 +91,7 @@ class Signup extends Component {
     );
 
     const form = (
-      <div>
+      <Container>
         <Form>
           <Form.Group controlId="usernameId">
             <Form.Label>Ім'я користувача</Form.Label>
@@ -141,7 +141,7 @@ class Signup extends Component {
         <Button color="primary" onClick={this.onSignupClick}>
           Зареєструватись
         </Button>
-      </div>
+      </Container>
     );
 
     let alert = "";
@@ -152,18 +152,25 @@ class Signup extends Component {
     }
 
     return (
+      <Blur img="images/background.jpeg" blurRadius={7} enableStyles 
+      style={{
+            height: "100vh"          }}>
       <Container>
         <Row>
-          <Col md="6">
+        <Col md={{ span: 6, offset: 3 }} style={{backgroundColor:"HoneyDew"}}>
+            <br/>
+            <br/>
             <h1>Зареєструватись</h1>
             {alert}
             {this.state.status !== "success" && form}
-            <p className="mt-2">
-              Уже маєте аккаунт? <Link to="/login">Вхід</Link>
+            <p style={{padding:"15px"}}>
+                 Уже маєте аккаунт? <Link to="/login">Вхід</Link>
             </p>
           </Col>
         </Row>
-      </Container>
+      </Container>      
+      </Blur>
+
     );
   }
 }

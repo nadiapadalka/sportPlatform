@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
+import Blur from 'react-blur';
+
 import {
   Alert,
   Container,
@@ -84,7 +86,7 @@ class ResetPassword extends Component {
           </Form.Group>
         </Form>
         <Button size="lg" variant="secondary" onClick={this.onSendClick}>
-          Надіслати email з посиланням для зміни паролю
+          Надіслати лист з посиланням для зміни паролю
         </Button>
       </div>
     );
@@ -97,15 +99,23 @@ class ResetPassword extends Component {
     }
 
     return (
-      <Container>
-        <Row>
-          <Col md="6">
+      <Blur img="images/background.jpeg" blurRadius={7} enableStyles 
+      style={{
+            height: "100vh"          }}>
+      <Container >
+        <Row >
+        <br/>
+
+        <Col md={{ span: 6, offset: 3 }} style={{backgroundColor:"HoneyDew"}}>
             <h1>Змінити пароль</h1>
             {alert}
             {this.state.status !== "success" && form}
+            <br/>
           </Col>
+          <br/>
         </Row>
-      </Container>
+        <br/>
+      </Container></Blur>
     );
   }
 }
