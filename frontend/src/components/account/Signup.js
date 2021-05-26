@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
-import Blur from 'react-blur';
+import Blur from "react-blur";
 import axios from "axios";
 import { setAxiosAuthToken } from "../../utils/Utils";
 import {
@@ -55,6 +55,7 @@ class Signup extends Component {
       })
       .catch(error => {
         if (error.response) {
+          console.log(error.response)
           if (error.response.data.hasOwnProperty("username")) {
             this.setState({ usernameError: error.response.data["username"] });
           }
@@ -161,8 +162,8 @@ class Signup extends Component {
             <br/>
             <br/>
             <h1>Зареєструватись</h1>
-            {alert}
-            {this.state.status !== "success" && form}
+            {errorAlert}
+            {/* {this.state.status !== "success" && form} */}
             <p style={{padding:"15px"}}>
                  Уже маєте аккаунт? <Link to="/login">Вхід</Link>
             </p>

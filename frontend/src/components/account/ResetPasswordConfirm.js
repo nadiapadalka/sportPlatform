@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
-import Blur from 'react-blur';
+import Blur from "react-blur";
 import {
   Alert,
   Container,
@@ -103,9 +103,7 @@ class ResetPasswordConfirm extends Component {
     }
 
     return (
-      <Blur img="images/background.jpeg" blurRadius={7} enableStyles 
-      style={{
-            height: "100vh"          }}>
+      <Blur img="images/background.jpeg" blurRadius={7} enableStyles>
       <Container>
         <Row>
         <Col md={{ span: 6, offset: 3 }} style={{backgroundColor:"HoneyDew"}}>

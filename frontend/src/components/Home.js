@@ -6,20 +6,28 @@ import { Container, Row, Col } from 'fluid-react';
 import { logout } from "./login/LoginActions";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-
+import { DropDownList } from "@progress/kendo-react-dropdowns";
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 import Map from "./events/Map"; // import the map here
 import EventList from "./events/EventList";
 import SubscribedEvents from "./events/SubscribedEvents";
+import Select from 'react-select';
 
 class Home extends Component {
+  state = {
+    selectedOption: 'йога/стетчінг',
+  };
+  
   onLogout = () => {
     this.props.logout();
   };
+  
   render() {
     const { user } = this.props.auth;
     return (
       <Container>
-      <Navbar >
+      <Navbar  >
       < Navbar.Collapse id="justify-content-end ">
 					<Nav className="ml-auto justify-content-end w-100">
           <Button as={Link} to={     
@@ -49,7 +57,7 @@ class Home extends Component {
       </Navbar>
       <Row >
       <Container>
-          <EventList user = {user.username}/>
+          <EventList user = {user.username} category = {this.state.selectedOption}/>
         </Container>        
   </Row>
         </Container>
@@ -57,7 +65,7 @@ class Home extends Component {
   }
 }
 Home.propTypes = {
-  logout: PropTypes.func.isRequired,
+  logout: PropTypes.func,
   auth: PropTypes.object
 };
 

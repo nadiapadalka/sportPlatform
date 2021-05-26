@@ -7,12 +7,14 @@ import { toast } from "react-toastify";
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import TextField from '@material-ui/core/TextField';
 import SearchField from "react-search-field";
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 import {
     Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button, Label
+    CardTitle, CardSubtitle, Label
   } from 'reactstrap';
   import { Container, Row, Col } from 'fluid-react';
-import { PersonCheckFill, ThermometerSnow } from 'react-bootstrap-icons';
+import {Badge, Button} from 'react-bootstrap';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -34,15 +36,22 @@ constructor(props) {
         events: [],
         nextPageURL:  '',
         user: this.props.user,
+        category:this.props.category,
         subscribedEventsId:[],
         clickedEventId: {},
-        availablePlaces: 0
+        availablePlaces: 0,
+        selectedOption: 'активності на вулиці',
+
     };
 
     this.nextPage  =  this.nextPage.bind(this);
     this.handleDelete  =  this.handleDelete.bind(this);
 
 }
+handleChange = selectedOption => {
+  this.setState({ selectedOption: selectedOption });
+  console.log(`Option selected:`, selectedOption);
+};
 componentDidMount() {
     var  self  =  this;
     eventsService.getEvents().then(function (result) {
@@ -139,12 +148,13 @@ render() {
     
     <Row >
     <Col>
-    
+    <Dropdown options={[  'йога/стетчінг', 'командні ігри', 'активності на вулиці','гімнастика'
+]} onChange={this.handleChange} value={this.state.selectedOption} placeholder="Select an option" />
     <Container>
     <div>
     
-             {this.state.events.map( c  =>
-        <Card>
+             {this.state.events.filter(card => (card.category == this.state.selectedOption.value)).map( c  =>
+        <Card border="primary">
           <Row >
           <Col>
             <CardBody key={c.pk} className="col">
@@ -152,20 +162,21 @@ render() {
             <CardSubtitle tag="h5" className = "mb-2 text-muted">{c.city}</CardSubtitle>
             <CardSubtitle tag="h6" className = "mb-2 text-muted">{c.address}</CardSubtitle>
             <CardText>{c.content}</CardText>
+            <CardText tag="h6">Категорія: <Badge variant="info">{c.category}</Badge></CardText>
             <CardText>Кількість місць: {c.capacity}</CardText>
             {c.availablePlaces !== 0
             ?<CardText>Кількість вільних місць: {c.availablePlaces}</CardText>
             :<CardText>Немає вільних місць!</CardText>}
 
             {c.creator === this.state.user
-            ?<Label >Ви створили цю подію!<br/></Label>
+            ?<h4><Badge variant="warning"> Ви створили цю подію!<br/></Badge></h4>
             :localStorage.getItem('subscribedEventsId') !== null && localStorage.getItem('subscribedEventsId').includes(c.pk)
-            ?<Label >Ви уже підписались на цю подію!<br/></Label>
+            ?<h4><Badge pill variant="success">Ви уже підписались на цю подію!<br/></Badge></h4>
             :<Button onClick={(e)=>this.subscribeToEvent(e, c.pk, this.state.user, c.subscribedUsers, c.capacity) }>Підписатись на подію</Button>}
             
-          <button  onClick={(e)=>  this.handleDelete(e,c.pk) }> Видалити</button>
-                 <a  href={"/event/" + c.pk}> Оновити інформацію</a>
-                 <a  href={"/detailEvent/" + c.pk}> Деталі події</a>
+            {c.creator === this.state.user &&
+<Button variant="danger"  onClick={(e)=>  this.handleDelete(e,c.pk) }> Видалити</Button>}
+                 {/* <a  href={"/detailEvent/" + c.pk}> Деталі події</a> */}
         </CardBody></Col>
         <Col> 
              <CardImg  top width="40%" className="col-auto" src={c.image}/>
@@ -178,12 +189,11 @@ render() {
     </div>     
     </Container>        
     </Col>
-    <Col xs="12" md="5">
-    <MapContainer center={[49.83096655, 24.039360473819094]} zoom={11} scrollWheelZoom={false}>
+    <MapContainer id="mapid" center={[49.83096655, 24.039360473819094]} zoom={11} scrollWheelZoom={false}>
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-        {this.state.events.map( (marker,idx)  =>
+        {this.state.events.filter(card => (card.category == this.state.selectedOption.value)).map( (marker,idx)  =>
           {
             let position = [marker.longitude, marker.latitude];
             return (
@@ -193,7 +203,6 @@ render() {
                   console.log('marker clicked', marker.pk)
                   let path = "/detailEvent/" + marker.pk; 
                   this.props.history.push(path);
-                  //this.focusCard(e, marker.pk)
                 },
               }}
                 position={position}>
@@ -204,7 +213,7 @@ render() {
         }
           )}
     </MapContainer>
-  </Col> 
+
 </Row>);
   }
 }

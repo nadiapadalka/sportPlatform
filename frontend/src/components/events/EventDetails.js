@@ -30,6 +30,9 @@ class EventDetails extends Component {
             this.refs.content.value = c.content;
             this.refs.city.value = c.city;
             this.refs.address.value = c.address;
+            this.refs.capacity.value = c.capacity;
+            this.refs.availablePlaces.value = c.availablePlaces;
+            this.refs.date = c.date;
             // this.refs.image.name = c.image;
             // console.log(this.refs.image);}
           })
@@ -55,7 +58,9 @@ class EventDetails extends Component {
           })}
 
     return (
-
+<Blur img="images/background.jpeg" blurRadius={7} enableStyles 
+      style={{
+            height: "100vh"          }}>
       <Container style={{justifyContent: "center"}}>
         <Row>
         <Col  style={{backgroundColor:"HoneyDew", padding: '15px', justifyContent: "center",}}>
@@ -100,6 +105,31 @@ class EventDetails extends Component {
               placeholder="Введіть адресу"
               value={this.state.address} readOnly
             />
+            <Form.Label>Кількість місць</Form.Label>
+            <Form.Control
+              type ="text"
+              rows={3}
+              id="capacity"
+              ref = "capacity"
+              value={this.state.capacity}
+              readOnly          />
+              <br/>
+            <Form.Label>Кількість вільних місць</Form.Label>
+            <Form.Control
+              type ="text"
+              rows={3}
+              id="availablePlaces"
+              ref = "availablePlaces"
+              value={this.state.availablePlaces}
+              readOnly          />
+            <Form.Label>Дата події</Form.Label>
+            <Form.Control
+              type ="date"
+              rows={3}
+              id="date"
+              ref = "date"
+              value={this.state.date}
+              readOnly          />
             </Col>
             <Col  style={{ padding: '15px'}}>
             <img src={this.state.image} style={{ height: "85%", width: "80%"}}/>
@@ -110,7 +140,7 @@ class EventDetails extends Component {
         
         </Col>
         </Row>
-        </Container>
+        </Container></Blur>
     );
   }
 }

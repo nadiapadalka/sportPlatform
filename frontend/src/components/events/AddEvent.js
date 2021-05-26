@@ -21,11 +21,14 @@ class AddEvent extends Component {
     title: '',
     content: '',
     city: '',
+    category:'',
     address: '',
+    number:0,
     image: "images/img.jpg",
     latitude: 0,
     file: "images/img.jpg",
     addressChanged: '',
+    date:'',
     user: this.props.location.state,
     longitude: 0  };
 
@@ -66,7 +69,8 @@ class AddEvent extends Component {
 
     })
         if (this.state.address !== '') 
-      {provider.search({ query: this.state.address}).then((result)=>{
+      {
+      provider.search({ query: this.state.address}).then((result)=>{
       this.state.longitude = result[0].y
       this.state.latitude = result[0].x}
       );}
@@ -74,6 +78,7 @@ class AddEvent extends Component {
 
   handleCreate() {
     let form_data = new FormData();
+    console.log(this.state.category)
     form_data.append('image', this.state.image, this.state.image.name);
     form_data.append('creator',this.state.user);
     form_data.append('longitude', this.state.longitude);
@@ -81,8 +86,12 @@ class AddEvent extends Component {
     form_data.append('title', this.state.title);
     form_data.append('content', this.state.content);
     form_data.append('city', this.state.city);
-    form_data.append('creator',this.state.user)
+    form_data.append('creator',this.state.user);
     form_data.append('address', this.state.address);
+    form_data.append('category', this.state.category);
+
+    //form_data.append('date', this.state.date);
+
 
 
     eventsService.createEvent(form_data)
@@ -187,13 +196,37 @@ class AddEvent extends Component {
               value={this.state.address}
               onChange={this.handleChange} required
             />
-            <Form.Control as="select">
+            <Form.Label>Кількість місць</Form.Label>
+            <Form.Control
+              type="text"
+              rows={3}
+              id="number"
+              ref ="number"
+              placeholder="Введіть кількість людей"
+              value={this.state.number}
+              onChange={this.handleChange} required
+            />
+            <Form.Control as="select"
+            id="category"
+            ref = "category"
+            componentClass="select"
+            onChange={this.handleChange} required   
+            >
               <option>йога/стетчінг</option>
               <option>командні ігри</option>
               <option>активності на вулиці</option>
               <option>гімнастика</option>
-              <option>5</option>
             </Form.Control>
+            <Form.Label>Дата події</Form.Label>
+            <Form.Control
+              type ="date"
+              format="YYYY-MM-DD"
+              rows={3}
+              id="date"
+              ref = "date"
+              placeholder="Введіть дату події"
+              value={this.state.date}
+              onChange={this.handleChange} required            />
             </Col>
             <Col  style={{ padding: '15px'}}>
             <img src={this.state.file} style={{ height: "85%", width: "80%"}}/>

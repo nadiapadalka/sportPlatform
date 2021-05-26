@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import  EventsService  from  './EventService';
 import {
     Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button, Label
+    CardTitle, CardSubtitle, Label
   } from 'reactstrap';
   import { Container, Row, Col } from 'fluid-react';
+  import {Badge, Button} from 'react-bootstrap';
 
 const  eventsService  =  new  EventsService();
 
@@ -58,16 +59,21 @@ render() {
     return (
         <div>
             {this.state.events.map( c  =>
-      <Card>
+      <Card border="primary">
             {(localStorage.getItem('subscribedEventsId').includes(c.pk)) && (c.creator !== this.state.user )&&
 
           <Row >
           <Col>
             <CardBody key={c.pk} className="col">
             <CardTitle tag="h4">{c.title}</CardTitle>
-            <CardSubtitle tag="h5" className="mb-2 text-muted">{c.city}</CardSubtitle>
-            <CardSubtitle tag="h6" className="mb-2 text-muted">{c.address}</CardSubtitle>
+            <CardSubtitle tag="h5" className = "mb-2 text-muted">{c.city}</CardSubtitle>
+            <CardSubtitle tag="h6" className = "mb-2 text-muted">{c.address}</CardSubtitle>
             <CardText>{c.content}</CardText>
+            <CardText tag="h6">Категорія: <Badge variant="info">{c.category}</Badge></CardText>
+            <CardText>Кількість місць: {c.capacity}</CardText>
+            {c.availablePlaces !== 0
+            ?<CardText>Кількість вільних місць: {c.availablePlaces}</CardText>
+            :<CardText>Немає вільних місць!</CardText>}
         </CardBody></Col>
         <Col> 
              <CardImg  top width="40%" className="col-auto" src={c.image}/>

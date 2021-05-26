@@ -102,7 +102,7 @@ class ResetPassword extends Component {
       <Blur img="images/background.jpeg" blurRadius={7} enableStyles 
       style={{
             height: "100vh"          }}>
-      <Container >
+      <Container  style={{backgroundImage:'url("images/background.jpeg")'}}>
         <Row >
         <br/>
 

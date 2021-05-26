@@ -36,7 +36,7 @@ export const getCurrentUser = redirectTo => dispatch => {
           error.response.status === 401 &&
           error.response.hasOwnProperty("data") &&
           error.response.data.hasOwnProperty("detail") &&
-          error.response.data["detail"] === "User inactive or deleted."
+          error.response.data["detail"] === "Користувач неактивний або видалений."
         ) {
           dispatch(push("/resend_activation"));
         }

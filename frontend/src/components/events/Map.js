@@ -39,6 +39,12 @@ class  Map  extends  Component {
             let position = [marker.longitude, marker.latitude];
             return (
               <Marker key={idx}
+              eventHandlers={{
+                click: (e) => {
+                  console.log('marker clicked', marker.pk)
+                  this.focusCard(e, marker.pk)
+                },
+              }}
                       position={position}>
                 <Popup>{marker.address}</Popup>
               </Marker>
